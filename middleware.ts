@@ -32,11 +32,14 @@ export async function middleware(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname
 
-  // Protect /dashboard and /admin routes
-  if (!user && (pathname.startsWith('/dashboard') || pathname.startsWith('/admin'))) {
-    const loginUrl = new URL('/login', request.url)
-    loginUrl.searchParams.set('redirectTo', pathname)
-    return NextResponse.redirect(loginUrl)
+  // Protect /dashboard — public login
+  if (!user && pathname.startsWith('/dashboard')) {
+    return NextResponse.redirect(new URL('/login', request.url))
+  }
+
+  // Protect /admin — separate admin login
+  if (!user && pathname.startsWith('/admin') && !pathname.startsWith('/admin/login')) {
+    return NextResponse.redirect(new URL('/admin/login', request.url))
   }
 
   // Protect /admin — requires admin role

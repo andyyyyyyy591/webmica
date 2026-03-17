@@ -18,6 +18,9 @@ export default function NewCoursePage() {
     currency: 'ARS',
     cover_image: '',
     is_published: false,
+    is_featured: false,
+    discount_price: '',
+    offer_label: '',
   })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
@@ -42,6 +45,9 @@ export default function NewCoursePage() {
         currency: form.currency,
         cover_image: form.cover_image || null,
         is_published: form.is_published,
+        is_featured: form.is_featured,
+        discount_price: form.discount_price ? parseFloat(form.discount_price) : null,
+        offer_label: form.offer_label || null,
       })
       .select('id')
       .single()
@@ -122,6 +128,40 @@ export default function NewCoursePage() {
           currentUrl={form.cover_image}
           onUploaded={(url) => setForm((f) => ({ ...f, cover_image: url }))}
         />
+
+        <div className="border-t border-gray-100 pt-4 space-y-3">
+          <p className="text-sm font-medium text-gray-700">Oferta y destacado</p>
+          <div className="flex gap-4">
+            <div className="flex-1">
+              <Input
+                label="Precio con descuento (opcional)"
+                type="number"
+                value={form.discount_price}
+                onChange={(e) => setForm((f) => ({ ...f, discount_price: e.target.value }))}
+                min="0"
+                step="0.01"
+                placeholder="Ej: 7500"
+              />
+            </div>
+            <div className="flex-1">
+              <Input
+                label="Etiqueta de oferta (opcional)"
+                value={form.offer_label}
+                onChange={(e) => setForm((f) => ({ ...f, offer_label: e.target.value }))}
+                placeholder="Ej: 50% OFF"
+              />
+            </div>
+          </div>
+          <label className="flex items-center gap-2 cursor-pointer">
+            <input
+              type="checkbox"
+              checked={form.is_featured}
+              onChange={(e) => setForm((f) => ({ ...f, is_featured: e.target.checked }))}
+              className="accent-amber-500"
+            />
+            <span className="text-sm text-gray-700">Destacar este curso en el inicio</span>
+          </label>
+        </div>
 
         <label className="flex items-center gap-2 cursor-pointer">
           <input

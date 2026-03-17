@@ -21,6 +21,9 @@ export interface Course {
   price: number
   currency: string
   is_published: boolean
+  is_featured: boolean
+  discount_price: number | null
+  offer_label: string | null
   created_at: string
   updated_at: string
 }

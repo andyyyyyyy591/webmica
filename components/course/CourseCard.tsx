@@ -28,6 +28,11 @@ export function CourseCard({ course }: CourseCardProps) {
               </svg>
             </div>
           )}
+          {course.offer_label && (
+            <span className="absolute top-2 left-2 rounded-full bg-red-500 px-2 py-0.5 text-xs font-bold text-white shadow">
+              {course.offer_label}
+            </span>
+          )}
         </div>
         <div className="p-4">
           <h3 className="font-semibold text-gray-900 group-hover:text-violet-600 transition-colors line-clamp-2">
@@ -36,9 +41,20 @@ export function CourseCard({ course }: CourseCardProps) {
           {course.description && (
             <p className="mt-1 text-sm text-gray-500 line-clamp-2">{course.description}</p>
           )}
-          <p className="mt-3 text-lg font-bold text-violet-600">
-            {formatPrice(course.price, course.currency)}
-          </p>
+          {course.discount_price ? (
+            <div className="mt-3 flex items-baseline gap-2">
+              <p className="text-lg font-bold text-violet-600">
+                {formatPrice(course.discount_price, course.currency)}
+              </p>
+              <p className="text-sm text-gray-400 line-through">
+                {formatPrice(course.price, course.currency)}
+              </p>
+            </div>
+          ) : (
+            <p className="mt-3 text-lg font-bold text-violet-600">
+              {formatPrice(course.price, course.currency)}
+            </p>
+          )}
         </div>
       </div>
     </Link>
