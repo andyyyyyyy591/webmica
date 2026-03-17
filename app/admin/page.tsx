@@ -45,7 +45,7 @@ export default async function AdminDashboard() {
   const courseCounts: Record<string, { title: string; count: number }> = {}
   for (const p of topCoursesData ?? []) {
     const courseId = p.course_id as string
-    const course = p.courses as { title: string } | null
+    const course = p.courses as unknown as { title: string } | null
     if (!courseCounts[courseId]) {
       courseCounts[courseId] = { title: course?.title ?? courseId, count: 0 }
     }
